@@ -26,8 +26,8 @@ top_skills_grouped = top_skills.groupby(by="job_title")
 
 @app.route("/")
 def selected_skills_test():
-    #job_title = request.args.get('job_title')
-    job_title = "hr"
+    job_title = request.args.get('job_title')
+
     df = top_skills_grouped.get_group(job_title).reset_index(drop = True) 
     rank_weight = np.array([5*(29-r)/29 for r in range(30)]) #from 1 to 5 based on the rank
     selection_weight = np.array([5*selection/100 for selection in df["selection_score"]]) #from 0 to 5 based on the selection score
