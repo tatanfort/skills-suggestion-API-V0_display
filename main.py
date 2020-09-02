@@ -23,7 +23,8 @@ top_skills_grouped = top_skills.groupby(by="job_title")
 
 @app.route("/")
 def selected_skills_test():
-    skills = top_skills_grouped.get_group("data scientist").reset_index(drop = True).iloc[0:10,1]
+    job_title = request.args.get('job_title')
+    skills = top_skills_grouped.get_group(job_title).reset_index(drop = True).iloc[0:10,1]
     return skills.to_json()
 
 
