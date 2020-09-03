@@ -8,7 +8,7 @@ import spacy
 import warnings
 import operator
 warnings.filterwarnings("ignore")
-
+"""
 class Matcher():
     def __init__(self):
         spacy.prefer_gpu() # or spacy.require_gpu()
@@ -45,7 +45,7 @@ class Matcher():
         return ' '.join(words)
 
 matcher = Matcher()
-
+"""
 
 
 
