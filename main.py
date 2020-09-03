@@ -11,6 +11,7 @@ warnings.filterwarnings("ignore")
 
 class Matcher():
     def __init__(self):
+        self.nlp_en = "en_core_web_lg"
         #self.nlp_en = spacy.load("en_core_web_lg")
         #self.nlp_fr = spacy.load("fr_core_news_md")
     def get_top_similarities(self, word, word_list, n, nlp):
