@@ -2,3 +2,5 @@ Flask==1.1.2
 Pandas==1.1.1
 Numpy==1.19.1
 Spacy==2.3.2
+Warning
+Operator
