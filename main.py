@@ -11,7 +11,6 @@ warnings.filterwarnings("ignore")
 
 class Matcher():
     def __init__(self):
-        spacy.prefer_gpu() # or spacy.require_gpu()
         self.nlp_en = spacy.load("en_core_web_lg")
         #self.nlp_fr = spacy.load("fr_core_news_md")
     def get_top_similarities(self, word, word_list, n, nlp):
@@ -25,26 +24,12 @@ class Matcher():
                     similarities[item] = 1
         return sorted(similarities.items(),key=operator.itemgetter(1),reverse=True)[:n]
     
-    def get_top_similarities_parsed(self, word, word_list, n):
-        similarities = {}
-        doc1 = self.nlp_en(self.parse_sentence(word))
-        for item in word_list:
-                doc2 = self.nlp_en(self.parse_sentence(item))
-                if item != word:
-                    similarities[item] = doc1.similarity(doc2)
-                else:
-                    similarities[item] = 1
-        return sorted(similarities.items(),key=operator.itemgetter(1),reverse=True)[:n]
-    
+
     def get_top_similarities_en(self, word, word_list, n):
         return self.get_top_similarities(word, word_list, n, self.nlp_en)
-    
-    def parse_sentence(self, sentence):
-        doc = self.nlp_en(sentence)
-        words = [token.text for token in doc if token.is_stop != True and token.is_punct != True and token.pos_ != 'VERB'  and token.pos_ != 'ADJ']
-        return ' '.join(words)
+ 
 
-#matcher = Matcher()
+matcher = Matcher()
 
 
 
