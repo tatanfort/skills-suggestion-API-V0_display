@@ -8,7 +8,7 @@ import spacy
 import warnings
 import operator
 warnings.filterwarnings("ignore")
-"""
+
 class Matcher():
     def __init__(self):
         spacy.prefer_gpu() # or spacy.require_gpu()
@@ -44,8 +44,8 @@ class Matcher():
         words = [token.text for token in doc if token.is_stop != True and token.is_punct != True and token.pos_ != 'VERB'  and token.pos_ != 'ADJ']
         return ' '.join(words)
 
-matcher = Matcher()
-"""
+#matcher = Matcher()
+
 
 
 
