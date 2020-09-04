@@ -41,7 +41,7 @@ def Matcher():
         else:
             similarities[item] = 1
     return sorted(similarities.items(),key=operator.itemgetter(1),reverse=True)[0][0]
-
+"""
 
 @app.route("/")
 def selected_skills_test():
@@ -51,7 +51,7 @@ def selected_skills_test():
         #job_title = "data scientist"
     skills = top_skills_grouped.get_group(job_title).reset_index(drop = True).iloc[0:10,1]
     return skills.to_json()
-
+"""
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=False, port=5005)
