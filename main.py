@@ -5,7 +5,6 @@ from flask import Flask
 from flask import request
 
 import spacy
-import en_core_web_sm
 import operator
 
 
