@@ -27,11 +27,11 @@ top_skills["num_appear"] = [0 for i in range(len(top_skills))]
 
 top_skills_grouped = top_skills.groupby(by="job_title")
 
+word_list = list(top_skills.job_title.unique())
 
-@app.route("/similarity")
-def Matcher():
-    word = request.args.get("word")
-    word_list = list(top_skills.job_title.unique())
+#@app.route("/similarity")
+def Matcher(word):
+    #word = request.args.get("word")
     similarities = {}
     doc1 = nlp_en(str(word))
     for item in word_list:
@@ -41,7 +41,6 @@ def Matcher():
         else:
             similarities[item] = 1
     return sorted(similarities.items(),key=operator.itemgetter(1),reverse=True)[0][0]
-"""
 
 @app.route("/")
 def selected_skills_test():
@@ -51,7 +50,7 @@ def selected_skills_test():
         #job_title = "data scientist"
     skills = top_skills_grouped.get_group(job_title).reset_index(drop = True).iloc[0:10,1]
     return skills.to_json()
-"""
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=False, port=5005)
