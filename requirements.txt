@@ -1,5 +1,5 @@
 Flask==1.1.2
 Pandas==1.1.1
 Numpy==1.19.1
-Spacy==2.2.5
-https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.5/en_core_web_sm-2.2.5.tar.gz#en_core_web_sm
+spacy==2.2.0
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.0/en_core_web_sm-2.2.0.tar.gz#egg=en_core_web_sm
