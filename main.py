@@ -32,6 +32,7 @@ class Matcher():
 matcher = Matcher()
 """
 def Matcher(word, word_list):
+    nlp_en = en_core_web_sm.load()
     return word
 
 
