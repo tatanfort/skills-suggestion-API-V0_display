@@ -64,6 +64,8 @@ top_skills_grouped = top_skills.groupby(by="job_title")
 @app.route("/")
 def selected_skills_test():
     job_title = request.args.get('job_title')
+    if job_title not in list(top_skills.job_title.unique()):
+        job_title = Matcher(job_title,list(top_skills.job_title.unique()))
     skills = top_skills_grouped.get_group(job_title).reset_index(drop = True).iloc[0:10,1]
     return skills.to_json()
 
