@@ -5,6 +5,7 @@ from flask import Flask
 from flask import request
 
 import spacy
+import en_core_web_sm
 import warnings
 import operator
 warnings.filterwarnings("ignore")
@@ -12,7 +13,7 @@ warnings.filterwarnings("ignore")
 class Matcher():
     def __init__(self):
         #self.nlp_en = "en_core_web_lg"
-        self.nlp_en = spacy.load("en_core_web_sm")
+        self.nlp_en = en_core_web_sm.load()
         #self.nlp_fr = spacy.load("fr_core_news_md")
     def get_top_similarities(self, word, word_list, n, nlp):
         similarities = {}
