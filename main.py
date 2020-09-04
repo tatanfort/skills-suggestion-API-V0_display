@@ -31,7 +31,8 @@ class Matcher():
 
 matcher = Matcher()
 """
-
+def Matcher(word, word_list):
+    return word
 
 
 app = Flask(__name__)
