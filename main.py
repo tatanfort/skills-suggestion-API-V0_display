@@ -6,10 +6,8 @@ from flask import request
 
 import spacy
 import en_core_web_sm
-import warnings
 import operator
-warnings.filterwarnings("ignore")
-
+"""
 class Matcher():
     def __init__(self):
         #self.nlp_en = "en_core_web_lg"
@@ -32,7 +30,7 @@ class Matcher():
  
 
 matcher = Matcher()
-
+"""
 
 
 
