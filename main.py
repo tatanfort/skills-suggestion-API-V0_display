@@ -31,9 +31,18 @@ class Matcher():
 
 matcher = Matcher()
 """
+nlp_en = spacy.load("en_core_web_sm")
+
 def Matcher(word, word_list):
-    nlp_en = en_core_web_sm.load()
-    return word
+    similarities = {}
+    doc1 = nlp_en(str(word))
+    for item in word_list:
+        doc2 = nlp_en(item)
+        if item != word:
+            similarities[item] = doc1.similarity(doc2)
+        else:
+            similarities[item] = 1
+    return sorted(similarities.items(),key=operator.itemgetter(1),reverse=True)[0][0]
 
 
 app = Flask(__name__)
