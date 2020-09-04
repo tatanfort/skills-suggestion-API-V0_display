@@ -13,16 +13,6 @@ app = Flask(__name__)
 
 nlp_en = spacy.load("en_core_web_sm")
 
-def Matcher(word, word_list):
-    similarities = {}
-    doc1 = nlp_en(str(word))
-    for item in word_list:
-        doc2 = nlp_en(item)
-        if item != word:
-            similarities[item] = doc1.similarity(doc2)
-        else:
-            similarities[item] = 1
-    return sorted(similarities.items(),key=operator.itemgetter(1),reverse=True)[0][0]
 
 
 n = 10 
@@ -38,12 +28,26 @@ top_skills["num_appear"] = [0 for i in range(len(top_skills))]
 top_skills_grouped = top_skills.groupby(by="job_title")
 
 
+@app.route("/similarity")
+def Matcher():
+    word = request.args.get("word")
+    word_list = list(top_skills.job_title.unique())
+    similarities = {}
+    doc1 = nlp_en(str(word))
+    for item in word_list:
+        doc2 = nlp_en(item)
+        if item != word:
+            similarities[item] = doc1.similarity(doc2)
+        else:
+            similarities[item] = 1
+    return sorted(similarities.items(),key=operator.itemgetter(1),reverse=True)[0][0]
+
 
 @app.route("/")
 def selected_skills_test():
     job_title = request.args.get('job_title')
-    if job_title not in list(top_skills.job_title.unique()):
-        job_title = Matcher(job_title,list(top_skills.job_title.unique()))
+    #if job_title not in list(top_skills.job_title.unique()):
+        #job_title = Matcher(job_title,list(top_skills.job_title.unique()))
         #job_title = "data scientist"
     skills = top_skills_grouped.get_group(job_title).reset_index(drop = True).iloc[0:10,1]
     return skills.to_json()
