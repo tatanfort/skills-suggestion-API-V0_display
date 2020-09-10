@@ -6,6 +6,7 @@ from flask import request
 
 
 top_skills = pd.read_excel("top_skills_ROME.xlsx")
+top_skills_grouped = top_skills.groupby(by="job_title")
 
 
 app = Flask(__name__)
