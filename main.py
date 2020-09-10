@@ -1,56 +1,40 @@
 
-
 import pandas as pd
-from flask import Flask
+import numpy as np
+from flask import Flask, render_template
 from flask import request
 
-import spacy
-import operator
 
+top_skills = pd.read_excel("top_skills_ROME.xlsx")
 
 
 app = Flask(__name__)
 
-nlp_en = spacy.load("en_core_web_sm")
-
-
-
-n = 10 
-percentage_exploitation = 0.7
-
-top_skills = pd.read_csv("top_skills_recommandation (2).csv", sep = ";")
-top_skills.drop("Unnamed: 0", axis=1, inplace = True)
-
-#initialisation of top_skills selection score and num_appears
-top_skills["selection_score"] = [100 for i in range(len(top_skills))]
-top_skills["num_appear"] = [0 for i in range(len(top_skills))]
-
-top_skills_grouped = top_skills.groupby(by="job_title")
-
-word_list = list(top_skills.job_title.unique())
-
-#@app.route("/similarity")
-def Matcher(word):
-    #word = request.args.get("word")
-    similarities = {}
-    doc1 = nlp_en(str(word))
-    for item in word_list:
-        doc2 = nlp_en(item)
-        if item != word:
-            similarities[item] = doc1.similarity(doc2)
-        else:
-            similarities[item] = 1
-    return sorted(similarities.items(),key=operator.itemgetter(1),reverse=True)[0][0]
 
 @app.route("/")
-def selected_skills_test():
+    
+def selected_skills_test2():
     job_title = request.args.get('job_title')
-    #if job_title not in list(top_skills.job_title.unique()):
-        #job_title = Matcher(job_title,list(top_skills.job_title.unique()))
-        #job_title = "data scientist"
-    skills = top_skills_grouped.get_group(job_title).reset_index(drop = True).iloc[0:10,1]
-    return skills.to_json()
-
+    nb_skills_selected = request.args.get('nb_skills_selected', default = 10, type = int)
+    df = top_skills_grouped.get_group(job_title).reset_index(drop = True) 
+    
+    if nb_skills_selected > len(df):
+        skills = df.top_skills
+    
+    else:
+        nb_exploration = round(0.3*nb_skills_selected)
+        nb_exploitation = nb_skills_selected - nb_exploration
+        
+        #exploration
+        exploration_skills = df.sample(n=nb_exploration).skill
+        #exploitation
+        selection_weight = np.array([1.00001- np.exp(-0.2*x) for x in df.num_appear])*df.selection_score
+        df["weight_sample"] = selection_weight
+        
+        exploitation_skills = df.sample(n = nb_exploitation, weights= "weight_sample").skill
+        
+        skills = exploitation_skills.append(exploration_skills)
+    return skills.reset_index(drop = True).to_json()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=False, port=5005)
+   app.run(host='0.0.0.0',debug=True, port=5005)
