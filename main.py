@@ -1,23 +1,19 @@
 
+
 import pandas as pd
 import numpy as np
 from flask import Flask, render_template
 from flask import request
-
-
 top_skills = pd.read_excel("top_skills_ROME.xlsx")
 top_skills_grouped = top_skills.groupby(by="job_title")
-
-
 app = Flask(__name__)
-
-
 @app.route("/")
     
 def selected_skills_test2():
     job_title = request.args.get('job_title')
     nb_skills_selected = request.args.get('nb_skills_selected', default = 10, type = int)
-    df = top_skills_grouped.get_group(job_title).reset_index(drop = True) 
+    
+    df = top_skills_grouped.get_group(job_title).reset_index(drop = True)
     
     if nb_skills_selected > len(df):
         skills = df.top_skills
@@ -36,6 +32,5 @@ def selected_skills_test2():
         
         skills = exploitation_skills.append(exploration_skills)
     return skills.reset_index(drop = True).to_json()
-
 if __name__ == '__main__':
-   app.run(host='0.0.0.0',debug=True, port=5005)
+   app.run(host='0.0.0.0',debug=True, port=5010)
