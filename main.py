@@ -8,7 +8,7 @@ from flask import request
 app = Flask(__name__)
 
 
-top_skills = pd.read_excel("top_skills_ROME.xlsx")
+top_skills = pd.read_csv("top_skills_ROME.csv",sep = ";")
 top_skills_grouped = top_skills.groupby(by="job_title")
 
 
