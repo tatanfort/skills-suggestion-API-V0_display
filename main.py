@@ -16,8 +16,10 @@ top_skills_grouped = top_skills.groupby(by="job_title")
 def selected_skills_test2():
     job_title = request.args.get('job_title')
     nb_skills_selected = request.args.get('nb_skills_selected', default = 10, type = int)
+    language = request.args.get('language', default = "fr", type = str)
     
-    df = top_skills_grouped.get_group(job_title).reset_index(drop = True)
+    if language == "fr":
+        df = top_skills_grouped.get_group(job_title).reset_index(drop = True)
     
     if nb_skills_selected > len(df):
         skills = df.top_skills
