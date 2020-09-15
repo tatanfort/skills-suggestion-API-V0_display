@@ -8,8 +8,12 @@ from flask import request
 app = Flask(__name__)
 
 
-top_skills = pd.read_pickle("top_skills.pkl")
-top_skills_grouped = top_skills.groupby(by="job_title")
+top_skills_fr = pd.read_pickle("top_skills.pkl")
+top_skills_grouped_fr = top_skills_fr.groupby(by="job_title")
+
+top_skills_en = pd.read_pickle("English_Job_Titles_Skills.pkl")
+top_skills_grouped_en = top_skills_en.groupby(by="job_title")
+
 
 
 @app.route("/")    
@@ -19,7 +23,9 @@ def selected_skills_test2():
     language = request.args.get('language', default = "fr", type = str)
     
     if language == "fr":
-        df = top_skills_grouped.get_group(job_title).reset_index(drop = True)
+        df = top_skills_grouped_fr.get_group(job_title).reset_index(drop = True)
+    if language == "en":
+        df = top_skills_grouped_en.get_group(job_title).reset_index(drop = True)
     
     if nb_skills_selected > len(df):
         skills = df.top_skills
