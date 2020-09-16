@@ -66,6 +66,7 @@ def selected_skills_test2():
         df = top_skills_grouped_fr.get_group(job_title).reset_index(drop = True)
     if language == "en":
         df = top_skills_grouped_en.get_group(job_title).reset_index(drop = True)
+        job_title = job_title_match_fuzzy(job_title)
     
     if nb_skills_selected > len(df):
         skills = df.top_skills
