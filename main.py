@@ -4,9 +4,49 @@ import pandas as pd
 import numpy as np
 from flask import Flask, render_template
 from flask import request
+import operator
+from fuzzywuzzy import fuzz
 
 app = Flask(__name__)
 
+#Job matching
+job_titles_esco = pd.read_pickle("job_titles_esco.pkl")
+ 
+
+def get_top_similarities_fuzz( word, word_list, n):
+    
+    similarities = {}
+    for i in range(len(word_list)):
+        similarities[word_list[i]] = fuzz.token_set_ratio(str(word),word_list[i])
+    sorted_similarity = sorted(similarities.items(),key=operator.itemgetter(1),reverse=True)
+    return sorted_similarity[:n]
+
+def job_title_match_fuzzy(job_searched, threshold = 90):
+    scores = []
+    for job_titles in job_titles_esco.preferredLabel:
+        scores.append(get_top_similarities_fuzz(job_searched,[job_titles],1)[0][1])
+    position_job_title_highest_score = np.argmax(scores)
+    highest_score = np.max(scores)
+    
+    
+    if highest_score > threshold:
+        return job_titles_esco.iloc[position_job_title_highest_score,0], highest_score
+    else :
+        scores = []
+        for job_titles in tqdm(job_titles_esco.altLabels):
+            scores.append(get_top_similarities_fuzz(job_searched,job_titles,1)[0][1])
+        position_job_title_highest_score = np.argmax(scores)
+        highest_score = np.max(scores)
+    
+    
+        if highest_score > threshold:
+            return job_titles_esco.iloc[position_job_title_highest_score,0], highest_score
+        else :
+            return None
+        
+
+        
+        
 
 top_skills_fr = pd.read_pickle("top_skills.pkl")
 top_skills_grouped_fr = top_skills_fr.groupby(by="job_title")
