@@ -33,7 +33,7 @@ def job_title_match_fuzzy(job_searched, threshold = 90):
         return job_titles_esco.iloc[position_job_title_highest_score,0], highest_score
     else :
         scores = []
-        for job_titles in tqdm(job_titles_esco.altLabels):
+        for job_titles in job_titles_esco.altLabels:
             scores.append(get_top_similarities_fuzz(job_searched,job_titles,1)[0][1])
         position_job_title_highest_score = np.argmax(scores)
         highest_score = np.max(scores)
