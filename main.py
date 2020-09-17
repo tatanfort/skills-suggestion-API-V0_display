@@ -66,7 +66,8 @@ def selected_skills_test2():
         df = top_skills_grouped_fr.get_group(job_title).reset_index(drop = True)
     if language == "en":
         job_title = job_title_match_fuzzy(job_title)[0]
-        df = top_skills_grouped_en.get_group(job_title).reset_index(drop = True)
+        if job_title != None :
+            df = top_skills_grouped_en.get_group(job_title).reset_index(drop = True)
        
     if job_title == None:
         return "wrong job title"
