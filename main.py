@@ -68,7 +68,7 @@ def selected_skills_test2():
         job_title = job_title_match_fuzzy(job_title)[0]
         df = top_skills_grouped_en.get_group(job_title).reset_index(drop = True)
         
-    
+    """
     if nb_skills_selected > len(df):
         skills = df.top_skills
     
@@ -85,6 +85,7 @@ def selected_skills_test2():
         exploitation_skills = df.sample(n = nb_exploitation, weights= "weight_sample").skill
         
         skills = exploitation_skills.append(exploration_skills)
-    return skills.reset_index(drop = True).to_json()
+    return skills.reset_index(drop = True).to_json()"""
+    return job_title
 if __name__ == '__main__':
    app.run(host='127.0.0.1', port=8080, debug=True)
