@@ -70,7 +70,7 @@ def selected_skills_test2():
             df = top_skills_grouped_en.get_group(job_title).reset_index(drop = True)
        
     if job_title == None:
-        return "wrong job title"
+        return pd.DataFrame({"wrong input":[]}).to_json()
     else:
         if nb_skills_selected > len(df):
             skills = df.top_skills
