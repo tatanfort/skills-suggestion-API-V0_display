@@ -53,11 +53,10 @@ def job_title_match_fuzzy(job_searched, threshold = 90):
 #french
   
 job_titles_ROME = pd.read_pickle("job_titles_ROME.pkl")  
-#spacy.prefer_gpu()
+spacy.prefer_gpu()
 #nlp = fr_core_news_sm.load()
 nlp = spacy.load("fr_core_news_sm")
 
-"""
 def get_top_similarities_fr( word, word_list, n):
     similarities = {}
     doc1 = nlp(str(word))
@@ -68,7 +67,6 @@ def get_top_similarities_fr( word, word_list, n):
             similarities[item] = 1
     return sorted(similarities.items(),key=operator.itemgetter(1),reverse=True)[0]
    
-   """
    
    
         
