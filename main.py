@@ -87,7 +87,7 @@ def selected_skills_test2():
     
     if language == "fr":
         if job_title not in list(job_titles_ROME["job processed"]):
-            job_title = get_top_similarities_fr(job_title, list(job_titles_ROME["job processed"]),10)[0]
+            job_title = get_top_similarities_fr(job_title, list(top_skills_fr.job_title.unique()),10)[0]
         df = top_skills_grouped_fr.get_group(job_title).reset_index(drop = True)
     if language == "en":
         job_title = job_title_match_fuzzy(job_title)[0]
