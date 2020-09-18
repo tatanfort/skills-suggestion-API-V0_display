@@ -1,4 +1,8 @@
 runtime: python37 
+instance_class: F4_1G
+env : standard
+entrypoint: gunicorn -b :$PORT main:app --timeout 90
+
 
 handlers:
   # This configures Google App Engine to serve the files in the app's static
