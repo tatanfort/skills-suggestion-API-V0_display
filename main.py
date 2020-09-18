@@ -6,10 +6,13 @@ from flask import Flask, render_template
 from flask import request
 import operator
 from fuzzywuzzy import fuzz
+import spacy
 
 app = Flask(__name__)
 
 #Job matching
+#english
+
 job_titles_esco = pd.read_pickle("job_titles_esco.pkl")
  
 
@@ -45,7 +48,25 @@ def job_title_match_fuzzy(job_searched, threshold = 90):
             return [None]
         
 
-        
+#french
+  
+job_titles_ROME = pd.read_pickle("job_titles_ROME.pkl")  
+spacy.prefer_gpu()
+nlp = spacy.load("fr_core_news_sm")
+
+def get_top_similarities_fr( word, word_list, n):
+    similarities = {}
+    doc1 = nlp(str(word))
+    for item in nlp.pipe(word_list):
+        if item != word:
+            similarities[item] = doc1.similarity(item)
+        else:
+            similarities[item] = 1
+    return sorted(similarities.items(),key=operator.itemgetter(1),reverse=True)[0]
+   
+   
+   
+   
         
 
 top_skills_fr = pd.read_pickle("top_skills.pkl")
