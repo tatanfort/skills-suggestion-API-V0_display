@@ -54,7 +54,7 @@ def job_title_match_fuzzy(job_searched, threshold = 90):
   
 #job_titles_ROME = pd.read_pickle("job_titles_ROME.pkl")  
 #spacy.prefer_gpu()
-nlp = fr_core_news_sm.load()
+#nlp = fr_core_news_sm.load()
 
 """
 def get_top_similarities_fr( word, word_list, n):
