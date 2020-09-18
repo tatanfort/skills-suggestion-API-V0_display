@@ -7,6 +7,8 @@ from flask import request
 import operator
 from fuzzywuzzy import fuzz
 import spacy
+import fr_core_news_sm
+
 
 app = Flask(__name__)
 
@@ -52,7 +54,8 @@ def job_title_match_fuzzy(job_searched, threshold = 90):
   
 job_titles_ROME = pd.read_pickle("job_titles_ROME.pkl")  
 spacy.prefer_gpu()
-nlp = spacy.load("fr_core_news_sm")
+nlp = fr_core_news_sm.load()
+
 
 def get_top_similarities_fr( word, word_list, n):
     similarities = {}
