@@ -42,7 +42,7 @@ def job_title_match_fuzzy(job_searched, threshold = 90):
         if highest_score > threshold:
             return job_titles_esco.iloc[position_job_title_highest_score,0], highest_score
         else :
-            return None
+            return [None]
         
 
         
