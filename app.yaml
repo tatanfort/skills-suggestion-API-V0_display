@@ -11,3 +11,7 @@ handlers:
   # the entire handlers section) when there are no static files defined.
 - url: /.*
   script: auto
+  
+instance_class: F4_1G
+env : standard
+entrypoint: gunicorn -b :$PORT main:app --timeout 90
