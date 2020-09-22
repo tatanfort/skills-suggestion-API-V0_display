@@ -7,7 +7,7 @@ from flask import request
 import operator
 from fuzzywuzzy import fuzz
 import spacy
-import fr_core_news_sm
+import fr_core_news_lg
 
 
 app = Flask(__name__)
@@ -16,6 +16,14 @@ app = Flask(__name__)
 #english
 
 job_titles_esco = pd.read_pickle("job_titles_esco.pkl")
+
+top_skills_fr = pd.read_pickle("top_skills.pkl")
+top_skills_grouped_fr = top_skills_fr.groupby(by="job_title")
+
+top_skills_en = pd.read_pickle("English_Job_Titles_Skills.pkl")
+top_skills_grouped_en = top_skills_en.groupby(by="job_title")
+
+
  
 
 def get_top_similarities_fuzz( word, word_list, n):
@@ -52,12 +60,12 @@ def job_title_match_fuzzy(job_searched, threshold = 90):
 
 #french
   
-job_titles_ROME = pd.read_pickle("job_titles_ROME.pkl")  
+#job_titles_ROME = pd.read_pickle("job_titles_ROME.pkl")  
 spacy.prefer_gpu()
-#nlp = fr_core_news_sm.load()
-nlp = spacy.load("fr_core_news_sm")
+nlp = spacy.load("fr_core_news_lg")
 
-def get_top_similarities_fr( word, word_list, n):
+def get_top_similarities_fr(word):
+    word_list = list(top_skills_fr.job_title.unique())
     similarities = {}
     doc1 = nlp(str(word))
     for item in nlp.pipe(word_list):
@@ -69,15 +77,6 @@ def get_top_similarities_fr( word, word_list, n):
    
    
    
-        
-
-top_skills_fr = pd.read_pickle("top_skills.pkl")
-top_skills_grouped_fr = top_skills_fr.groupby(by="job_title")
-
-top_skills_en = pd.read_pickle("English_Job_Titles_Skills.pkl")
-top_skills_grouped_en = top_skills_en.groupby(by="job_title")
-
-
 
 @app.route("/")    
 def selected_skills_test2():
@@ -86,8 +85,8 @@ def selected_skills_test2():
     language = request.args.get('language', default = "fr", type = str)
     
     if language == "fr":
-        if job_title not in list(job_titles_ROME["job processed"]):
-            job_title = get_top_similarities_fr(job_title, list(top_skills_fr.job_title.unique()),10)[0]
+        if job_title not in list(top_skills_fr.job_title.unique()):
+            job_title = get_top_similarities_fr(job_title)[0]
         df = top_skills_grouped_fr.get_group(job_title).reset_index(drop = True)
     if language == "en":
         job_title = job_title_match_fuzzy(job_title)[0]
