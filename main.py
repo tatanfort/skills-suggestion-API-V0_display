@@ -68,11 +68,11 @@ def get_top_similarities_fr(word):
     word_list = list(top_skills_fr.job_title.unique())
     similarities = {}
     doc1 = nlp(str(word))
-    for item in nlp.pipe(word_list):
+    for i,item in enumerate(nlp.pipe(word_list)):
         if item != word:
-            similarities[item] = doc1.similarity(item)
+            similarities[word_list[i]] = doc1.similarity(item)
         else:
-            similarities[item] = 1
+            similarities[word_list[i]] = 1
     return sorted(similarities.items(),key=operator.itemgetter(1),reverse=True)[0]
    
    
