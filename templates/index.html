@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+  <title>TOP SKILLS</title>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <h1>Test App Engine Alex Nvn</h1>
+  <p>Add "/?job_title=YOUR JOB TITLE in the url</p>
+  <p>Ex:"...com/?job_title=data scientist"</p>
+
+  <h2>Top skills :</h2>
+  {%for skill in skills %}
+    <p>{{skill}}</p>
+  {% endfor %}
+  <p>{{error}}</p>
+
+</body>
+</html>
